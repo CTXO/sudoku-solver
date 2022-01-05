@@ -1,7 +1,15 @@
 class SudokuTable:
     def __init__(self, sudoku_string):
         if len(sudoku_string) != 81:
-            raise SyntaxError("The string must have 81 characters")
+            raise SyntaxError("The sudoku string must have 81 characters")
+        for c in sudoku_string:
+            try:
+                int(c)
+            except ValueError as error:
+                if c == ".":
+                    continue
+                raise ValueError("The sudoku string must have only numbers and dots")
+
         self.string = sudoku_string
         self.done = False
     
@@ -86,4 +94,4 @@ test_string = "3.65.84..52........87....31..3.1..8.9..863..5.5..9.6..13....25...
 ST = SudokuTable(test_string)
 
 print(ST)
-print(ST.is_valid(80, 8))
+print(ST.is_valid(79, 8))
