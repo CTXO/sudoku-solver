@@ -27,7 +27,7 @@ class SudokuTable:
         if self.string[i] == ".":
             if self.debug:
                 print(f"_solve_rec processing . at index {i}")
-            for number_attempt in range(10):
+            for number_attempt in range(1, 10):
                 if self.debug:
                     print(f"\tTrying to replace {self.string[i]} with {number_attempt}")
                 if self.is_valid(i, number_attempt):
@@ -47,6 +47,8 @@ class SudokuTable:
                         self.done = True  
                 if self.done:
                     break
+            if not self.done:
+                self._replace_number(i, '.')
         else:
             self._solve_rec(i + 1)
 
@@ -121,8 +123,9 @@ test_string = "3.65.84..52........87....31..3.1..8.9..863..5.5..9.6..13....25...
 ST = SudokuTable(test_string)
 
 
-#print(ST)
+print(ST)
+print()
+print()
 #print(ST.is_valid(80, 8))
-ST.debug_mode()
 ST._solve_rec(0)
 print(ST)
