@@ -12,13 +12,18 @@ class SudokuTable:
 
         self.string = sudoku_string
         self.done = False
-    
+
+    @staticmethod
+    def _check_index(i):
+        if i > 80:
+            raise ValueError("Index cannot be greater than 80")
 
     def _solve_rec(self, i):
+        self._check_index(i)
         if self.string[i] == ".":
-            for j in range(10):
-                if self.is_valid(j):
-                    self.string[i] = str(j)
+            for number_attempt in range(10):
+                if self.is_valid(number_attempt):
+                    self._replace_number(i, number_attempt)
                     if i < len(self.string) - 1:
                         self._solve_rec(i+1)  
                     else:
@@ -28,7 +33,6 @@ class SudokuTable:
 
     def _get_row(self, i):
         return i // 9
-
 
     def _get_col(self, i):
         return i % 9
@@ -40,6 +44,9 @@ class SudokuTable:
         offset = col // 3
 
         return base + offset
+
+    def _replace_number(self, index, number):
+        self.string = self.string[:index] + str(number) + self.string[index+1:]
 
     def _check_row(self, index, number):
         row = self._get_row(index)
@@ -70,6 +77,7 @@ class SudokuTable:
     
     
     def is_valid(self, index, number):
+        self._check_index(index)
         if self._check_block(index, number) \
         and self._check_col(index, number) \
         and self._check_row(index, number):
@@ -93,5 +101,8 @@ test_string = "3.65.84..52........87....31..3.1..8.9..863..5.5..9.6..13....25...
 
 ST = SudokuTable(test_string)
 
+
 print(ST)
-print(ST.is_valid(79, 8))
+print(ST.is_valid(80, 8))
+ST._solve_rec(0)
+print(ST)
