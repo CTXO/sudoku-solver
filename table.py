@@ -87,13 +87,14 @@ class SudokuTable:
 
     def _check_block(self, index, number):
         block = self._get_block(index)
-        initial_index = (block - (block%3))*9 + (3*(block%3)) 
+        base_index = (block - (block%3))*9 + (3*(block%3)) # First index of block
         for j in range(3):
             for k in range(3):
-                index_to_check = initial_index + k
+                index_to_check = base_index + k
+                #print(index_to_check)
                 if self.string[index_to_check] == str(number) and index_to_check != index:
                     return False
-            index_to_check += 7 
+            base_index += 9 
         return True
     
     
@@ -119,13 +120,15 @@ class SudokuTable:
         return table_string
 
 test_string = "3.65.84..52........87....31..3.1..8.9..863..5.5..9.6..13....25........74..52.63.."
+test2 = "................................................................................."
 
-ST = SudokuTable(test_string)
+ST = SudokuTable(test2)
 
-
+ST._replace_number(10, 5)
 print(ST)
 print()
 print()
 #print(ST.is_valid(80, 8))
+#ST.debug_mode()
 ST._solve_rec(0)
 print(ST)
