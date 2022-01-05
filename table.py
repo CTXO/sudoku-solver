@@ -12,6 +12,10 @@ class SudokuTable:
 
         self.string = sudoku_string
         self.done = False
+        self.debug = False
+    
+    def debug_mode(self):
+        self.debug = True
 
     @staticmethod
     def _check_index(i):
@@ -21,15 +25,30 @@ class SudokuTable:
     def _solve_rec(self, i):
         self._check_index(i)
         if self.string[i] == ".":
+            if self.debug:
+                print(f"_solve_rec processing . at index {i}")
             for number_attempt in range(10):
-                if self.is_valid(number_attempt):
+                if self.debug:
+                    print(f"\tTrying to replace {self.string[i]} with {number_attempt}")
+                if self.is_valid(i, number_attempt):
+                    if self.debug:
+                        print(f"\tReplacing {self.string[i]} with {number_attempt}")
                     self._replace_number(i, number_attempt)
                     if i < len(self.string) - 1:
+                        if self.debug:
+                            print(f"\tGoing to next recursion with index {i+1}")
                         self._solve_rec(i+1)  
+                        if self.debug:
+                            print(f"\tRegressing to recursion {i}")
+
                     else:
+                        if self.debug:
+                            print(f"Solved!!")
                         self.done = True  
                 if self.done:
                     break
+        else:
+            self._solve_rec(i + 1)
 
     def _get_row(self, i):
         return i // 9
@@ -102,7 +121,8 @@ test_string = "3.65.84..52........87....31..3.1..8.9..863..5.5..9.6..13....25...
 ST = SudokuTable(test_string)
 
 
-print(ST)
-print(ST.is_valid(80, 8))
+#print(ST)
+#print(ST.is_valid(80, 8))
+ST.debug_mode()
 ST._solve_rec(0)
 print(ST)
