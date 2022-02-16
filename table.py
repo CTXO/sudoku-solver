@@ -1,18 +1,22 @@
 class SudokuTable:
     def __init__(self, sudoku_string):
-        if len(sudoku_string) != 81:
-            raise SyntaxError("The sudoku string must have 81 characters")
-        for c in sudoku_string:
-            try:
-                int(c)
-            except ValueError as error:
-                if c == ".":
-                    continue
-                raise ValueError("The sudoku string must have only numbers and dots")
 
         self.string = sudoku_string
         self.done = False
         self.debug = False
+        if len(sudoku_string) != 81:
+            print((sudoku_string))
+            raise SyntaxError("The sudoku string must have 81 characters")
+        for i, c in enumerate(self.string):
+            if c != ".":
+                if not c.isdigit():
+                    raise ValueError("The sudoku string must have only numbers and dots")
+                if not self._is_valid(i, int(c)):
+                    raise ValueError("This sudoku board cannot be solved")
+
+            
+        
+
     
     def debug_mode(self):
         self.debug = True
@@ -30,7 +34,7 @@ class SudokuTable:
             for number_attempt in range(1, 10):
                 if self.debug:
                     print(f"\tTrying to replace {self.string[i]} with {number_attempt}")
-                if self.is_valid(i, number_attempt):
+                if self._is_valid(i, number_attempt):
                     if self.debug:
                         print(f"\tReplacing {self.string[i]} with {number_attempt}")
                     self._replace_number(i, number_attempt)
@@ -51,6 +55,9 @@ class SudokuTable:
                 self._replace_number(i, '.')
         else:
             self._solve_rec(i + 1)
+    
+    def solve(self):
+        self._solve_rec(0)
 
     def _get_row(self, i):
         return i // 9
@@ -91,14 +98,13 @@ class SudokuTable:
         for j in range(3):
             for k in range(3):
                 index_to_check = base_index + k
-                #print(index_to_check)
                 if self.string[index_to_check] == str(number) and index_to_check != index:
                     return False
             base_index += 9 
         return True
     
     
-    def is_valid(self, index, number):
+    def _is_valid(self, index, number):
         self._check_index(index)
         if self._check_block(index, number) \
         and self._check_col(index, number) \
@@ -119,16 +125,5 @@ class SudokuTable:
             table_string += char + " "
         return table_string
 
-test_string = "3.65.84..52........87....31..3.1..8.9..863..5.5..9.6..13....25........74..52.63.."
-test2 = "................................................................................."
 
-ST = SudokuTable(test2)
 
-ST._replace_number(10, 5)
-print(ST)
-print()
-print()
-#print(ST.is_valid(80, 8))
-#ST.debug_mode()
-ST._solve_rec(0)
-print(ST)
