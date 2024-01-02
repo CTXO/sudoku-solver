@@ -15,9 +15,6 @@ class SudokuTable:
                     raise ValueError("This sudoku board cannot be solved")
 
             
-        
-
-    
     def debug_mode(self):
         self.debug = True
 
@@ -106,11 +103,10 @@ class SudokuTable:
     
     def _is_valid(self, index, number):
         self._check_index(index)
-        if self._check_block(index, number) \
-        and self._check_col(index, number) \
-        and self._check_row(index, number):
-            return True
-        return False
+        block_valid = self._check_block(index, number)
+        col_valid = self._check_col(index, number)
+        row_valid = self._check_row(index, number)
+        return block_valid and col_valid and row_valid
     
     def __str__(self):
         table_string = ""
