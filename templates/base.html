@@ -1,17 +1,18 @@
-{% extends "bootstrap/base.html" %}
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
    
 </head>
 <body>
     {% block content %}
-    <div class="btn btn-dard" role=>
-        button
-    </div>
+    <button class="button is-green">Green</button>
+
     {% endblock %}
 </body>
+
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 </html>
