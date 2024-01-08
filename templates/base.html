@@ -9,9 +9,10 @@
    
 </head>
 <body>
-    <div class="mt-6"></div>
+    <div class="mt-6 mr-6 ml-6" id="main-content">
     {% block content %}
     {% endblock %}
+    </div>
 </body>
 
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
