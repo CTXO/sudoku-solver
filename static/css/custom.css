@@ -1,0 +1,51 @@
+#solver-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#sudoku-table {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    column-gap: 0;
+    row-gap: 0;
+    width: 40%;
+    border: 2px solid black;
+    margin-bottom: 2rem;
+}
+
+#sudoku-table .block {
+    border: 1px solid black;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0;
+    aspect-ratio: 1/1; 
+    
+}
+
+#sudoku-table .cell {
+    border: 1px solid black;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    aspect-ratio: 1/1;
+}
+
+#solve-button {
+    margin-top: 1rem;
+}
+
+@media (max-width: 1036px) {
+    #sudoku-table .cell {
+        font-size: 1rem;
+    }
+    #sudoku-table {
+        width: 100%;
+    }
+    
+
+}

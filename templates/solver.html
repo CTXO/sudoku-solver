@@ -1,107 +1,116 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div id="sudoku-table">
-        <div class="block">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
+    <div id="solver-container">
+        <div id="sudoku-table">
+            <div class="block">
+                <div class="cell"><span class="text">1</span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+            </div>
+            <div class="block">
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+            </div>
+            <div class="block">
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+            </div>
+            <div class="block">
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+            </div>
+            <div class="block">
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+            </div>
+            <div class="block">
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+            </div>
+            <div class="block">
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+            </div>
+            <div class="block">
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+            </div>
+            <div class="block">
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+                <div class="cell"><span class="text"></span></div>
+            </div>
         </div>
-        <div class="block">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-        </div>
-        <div class="block">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-        </div>
-        <div class="block">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-        </div>
-        <div class="block">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-        </div>
-        <div class="block">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-        </div>
-        <div class="block">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-        </div>
-        <div class="block">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-        </div>
-        <div class="block">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-        </div>
+
+    <form action="post" id="solver-form">
+        <input class="checkbox" type="checkbox" name="step-by-step"> <label>Show step-by-step<label><br>
+        <button type="submit" class="button is-primary" id="solve-button">Solve</button> 
+
+    </form>    
     </div>
+    
 {% endblock %}
 
 
