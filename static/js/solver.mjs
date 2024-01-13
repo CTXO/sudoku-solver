@@ -1,6 +1,5 @@
 const sudokuTable = document.getElementById('sudoku-table')
 const cells = document.querySelectorAll('.cell')
-let selectedCell = 
 
 sudokuTable.addEventListener('click', function(e) {
     const elem = e.target
@@ -15,7 +14,6 @@ sudokuTable.addEventListener('click', function(e) {
     const elemBlock = elem.getAttribute('block')
     const shadowElems = document.querySelectorAll(`[row="${elemRow}"], [col="${elemCol}"], [block="${elemBlock}"]`);
     shadowElems.forEach(elem => elem.classList.add('shadow'))
-
 })
 
 sudokuTable.addEventListener('keydown', function(e) {
@@ -31,4 +29,10 @@ sudokuTable.addEventListener('keydown', function(e) {
         return
     }
     elem.innerText = e.key;
+})
+
+
+const clearButton = document.getElementById('clear-button')
+clearButton.addEventListener('click', function(e) {
+    cells.forEach(cell => cell.innerText = null)
 })
