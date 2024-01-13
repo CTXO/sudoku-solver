@@ -33,10 +33,23 @@
     align-items: center;
     font-size: 2rem;
     aspect-ratio: 1/1;
+    outline: none   ;
 }
 
 #solve-button {
     margin-top: 1rem;
+}
+
+.cell.selected {
+    background-color: #a3a3f8;
+}
+
+.cell.shadow {
+    background-color: #cad8ed;
+}
+
+.cell.selected.shadow {
+    background-color: #a3a3f8;
 }
 
 @media (max-width: 1036px) {
@@ -46,6 +59,4 @@
     #sudoku-table {
         width: 100%;
     }
-    
-
 }
