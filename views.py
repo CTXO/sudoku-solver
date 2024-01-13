@@ -22,7 +22,7 @@ def solver():
     """
     table_structure = [
         [
-            {'row': cell//3 + (block // 3)*3, 'col': cell%3 + (block % 3)* 3}
+            {'row': cell//3 + (block // 3)*3, 'col': cell%3 + (block % 3)* 3, 'block': block}
             for cell in range(9)
         ]
         for block in range(9)
