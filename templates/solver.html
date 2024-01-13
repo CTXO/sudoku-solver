@@ -12,10 +12,11 @@
             {% endfor %}
         </div>
 
-    <form class="form" id="solver-form">
-        <input class="checkbox" id="show-step-input" type="checkbox" name="show-step"> <label>Show step-by-step<label><br>
-        <button type="submit" class="button is-primary" id="solve-button">Solve</button> 
-    </form>    
+        <div id="solver-buttons">
+            <div><input class="checkbox" id="show-step-input" type="checkbox" name="show-step"> <label>Show step-by-step<label></div>
+            <button type="button" class="button is-primary" id="solve-button">Solve</button>
+            <button type="button" class="button is-info" id="clear-button">Clear table</button>
+        </div>    
     </div>
     
 <script src="{{ url_for('static', filename='js/solver.mjs') }}" type="module"></script>

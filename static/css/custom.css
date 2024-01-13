@@ -36,10 +36,6 @@
     outline: none   ;
 }
 
-#solve-button {
-    margin-top: 1rem;
-}
-
 .cell.selected {
     background-color: #a3a3f8;
 }
@@ -50,6 +46,17 @@
 
 .cell.selected.shadow {
     background-color: #a3a3f8;
+}
+
+#solver-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#solver-buttons > * {
+    margin-bottom: 1rem;
+
 }
 
 @media (max-width: 1036px) {
