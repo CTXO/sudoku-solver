@@ -48,6 +48,15 @@
     background-color: #a3a3f8;
 }
 
+.cell.error {
+    background-color: red;
+}
+
+.cell.selected.error {
+    background-color: red;
+    color: white
+}
+
 #solver-buttons {
     display: flex;
     flex-direction: column;

@@ -1,3 +1,4 @@
+import json
 from flask import Blueprint
 from flask import render_template
 from flask import request
@@ -34,11 +35,18 @@ def solver():
     return render_template('solver.html', table_structure=table_structure)
 
 
-@bp.route('/check_valid')
+@bp.route('/check_valid', methods=['POST'])
 def check_valid():
-    table_state = request.data.get('table_state')
-    index = request.data.get('index')
-    number = request.data.get('Number')
-    table = SudokuTable(table_state)
-    is_valid = table.is_valid(index, number)
-    return {'is_valid': is_valid}
+    print(request.data)
+    request_data = json.loads(request.data)
+    table_state = request_data.get('table_state')
+    index = int(request_data.get('index'))
+    number = int(request_data.get('number'))
+
+    try:
+        SudokuTable(table_state)
+        return {'is_valid': True}
+        
+    except:
+        return {'is_valid': False}
+        

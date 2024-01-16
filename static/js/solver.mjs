@@ -35,11 +35,44 @@ const getTableState = function() {
     return state
 }
 
+
+const makeCheckValidRequest = async function(tableState, index, number){
+    const checkValidUrl = '/check_valid'
+    const options = {
+        method: 'POST',
+        body: JSON.stringify({
+            table_state: tableState,
+            index,
+            number
+        })
+    }
+    const preResponse = await fetch(checkValidUrl, options)
+    const response = await preResponse.json()
+    return response
+}
+
+const getTableIndexFromPosition = function(row, column) {
+    const rowInt = parseInt(row)
+    const colInt = parseInt(column)
+    return rowInt*9 + colInt
+}
+
+const hasInvalidCell = function() {
+    const cellsArray = Array.from(cells)
+    return cellsArray.some(cell => cell.classList.contains('error'))
+}
+
+const canEditCell = function(cell) {
+    return !hasInvalidCell() || cell.classList.contains('error')
+}
+
+
 const clickCellHandler = function(e) {
     const elem = e.target
     if (!elem.classList.contains('cell')) {
         return
     }
+    
     cells.forEach(cell => cell.classList.remove('selected', 'shadow'))
     elem.classList.add('selected')
 
@@ -50,8 +83,14 @@ const clickCellHandler = function(e) {
     shadowElems.forEach(elem => elem.classList.add('shadow'))
 }
 
-const keyCellHandler = function(e) {
+
+const keyCellHandler = async function(e) {
     const elem = e.target
+    
+    if (!canEditCell(elem)) {
+        return
+    }
+    
     if (!elem.classList.contains('cell')) {
         return
     }
@@ -64,7 +103,14 @@ const keyCellHandler = function(e) {
     }
     elem.innerText = e.key;
     const tableState = getTableState()
-    console.log(tableState)
+    const index = getTableIndexFromPosition(elem.getAttribute('row'), elem.getAttribute('col'))
+    const number = parseInt(e.key)
+    
+    elem.classList.remove('error')
+    const response = await makeCheckValidRequest(tableState, index, number)
+    if (!response.is_valid) {
+        elem.classList.add('error')
+    }
     
 }
 
@@ -75,3 +121,4 @@ const clearButton = document.getElementById('clear-button')
 clearButton.addEventListener('click', function(e) {
     cells.forEach(cell => cell.innerText = null)
 })
+
