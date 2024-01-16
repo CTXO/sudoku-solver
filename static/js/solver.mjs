@@ -119,6 +119,10 @@ sudokuTable.addEventListener('keydown', keyCellHandler)
 
 const clearButton = document.getElementById('clear-button')
 clearButton.addEventListener('click', function(e) {
-    cells.forEach(cell => cell.innerText = null)
+    document.activeElement.blur()
+    cells.forEach(cell => {
+        cell.innerText = null
+        cell.classList.remove('selected', 'shadow', 'error')
+    })
 })
 
