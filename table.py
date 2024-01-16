@@ -11,7 +11,7 @@ class SudokuTable:
             if c != ".":
                 if not c.isdigit():
                     raise ValueError("The sudoku string must have only numbers and dots")
-                if not self._is_valid(i, int(c)):
+                if not self.is_valid(i, int(c)):
                     raise ValueError("This sudoku board cannot be solved")
 
             
@@ -31,7 +31,7 @@ class SudokuTable:
             for number_attempt in range(1, 10):
                 if self.debug:
                     print(f"\tTrying to replace {self.string[i]} with {number_attempt}")
-                if self._is_valid(i, number_attempt):
+                if self.is_valid(i, number_attempt):
                     if self.debug:
                         print(f"\tReplacing {self.string[i]} with {number_attempt}")
                     self._replace_number(i, number_attempt)
@@ -101,7 +101,7 @@ class SudokuTable:
         return True
     
     
-    def _is_valid(self, index, number):
+    def is_valid(self, index, number):
         self._check_index(index)
         block_valid = self._check_block(index, number)
         col_valid = self._check_col(index, number)
