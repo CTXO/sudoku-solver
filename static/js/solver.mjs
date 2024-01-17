@@ -121,8 +121,10 @@ const keyCellHandler = async function(e) {
     const number = parseInt(e.key)
     
     elem.classList.remove('error')
+    
+    let response;
     try {
-        const response = await makeCheckValidRequest(tableState, index, number)
+        response = await makeCheckValidRequest(tableState, index, number)
     }
     catch(e) {
         console.error(e)
@@ -150,6 +152,7 @@ const solveButtonHandler = async function(e) {
         cell.innerText = number
     }
 }
+
 
 sudokuTable.addEventListener('click', clickCellHandler)
 sudokuTable.addEventListener('keydown', keyCellHandler)
