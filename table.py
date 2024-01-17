@@ -50,6 +50,10 @@ class SudokuTable:
                     break
             if not self.done:
                 self._replace_number(i, '.')
+        elif i == len(self.string) - 1:
+            if self.debug:
+                print(f"Solved!!")
+            self.done = True 
         else:
             self._solve_rec(i + 1)
     
