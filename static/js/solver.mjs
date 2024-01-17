@@ -1,4 +1,5 @@
 const sudokuTable = document.getElementById('sudoku-table')
+const solveButton = document.getElementById('solve-button')
 const cells = document.querySelectorAll('.cell')
 
 const replaceByIndex = function(string, index, replacement) {
@@ -18,7 +19,6 @@ const cellPositionToIndex = function(row, col) {
 
 const getTableState = function() {
     let state = ''.padStart(81, '.')
-    console.log("len", state.length)
     cells.forEach(function(cell) {
         const cellRow = parseInt(cell.getAttribute('row'))
         const cellCol = parseInt(cell.getAttribute('col'))
@@ -49,6 +49,20 @@ const makeCheckValidRequest = async function(tableState, index, number){
     const preResponse = await fetch(checkValidUrl, options)
     const response = await preResponse.json()
     return response
+}
+
+const makeSolveTableRequest = async function(tableState){
+    const solveTableUrl = '/solve'
+    const options = {
+        method: 'POST',
+        body: JSON.stringify({
+            table_state: tableState
+        })
+    }
+    const preResponse = await fetch(solveTableUrl, options)
+    const response = await preResponse.json()
+    return response
+
 }
 
 const getTableIndexFromPosition = function(row, column) {
@@ -107,15 +121,40 @@ const keyCellHandler = async function(e) {
     const number = parseInt(e.key)
     
     elem.classList.remove('error')
-    const response = await makeCheckValidRequest(tableState, index, number)
+    try {
+        const response = await makeCheckValidRequest(tableState, index, number)
+    }
+    catch(e) {
+        console.error(e)
+        return 
+    }
     if (!response.is_valid) {
         elem.classList.add('error')
     }
     
 }
 
+
+const solveButtonHandler = async function(e) {
+    const response = await makeSolveTableRequest(getTableState())
+    if (!response.success) {
+        return
+    }
+    
+    const solvedTable = Array.from(response.solved_table)
+
+    for (let [index, number] of solvedTable.entries()) {
+        const row = Math.floor(index / 9)
+        const col = index % 9 
+        const cell = document.querySelector(`.cell[row="${row}"][col="${col}"]`)
+        cell.innerText = number
+    }
+}
+
 sudokuTable.addEventListener('click', clickCellHandler)
 sudokuTable.addEventListener('keydown', keyCellHandler)
+
+solveButton.addEventListener('click', solveButtonHandler)
 
 const clearButton = document.getElementById('clear-button')
 clearButton.addEventListener('click', function(e) {
