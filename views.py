@@ -37,16 +37,30 @@ def solver():
 
 @bp.route('/check_valid', methods=['POST'])
 def check_valid():
-    print(request.data)
     request_data = json.loads(request.data)
     table_state = request_data.get('table_state')
-    index = int(request_data.get('index'))
-    number = int(request_data.get('number'))
-
     try:
         SudokuTable(table_state)
         return {'is_valid': True}
         
     except:
         return {'is_valid': False}
+
+@bp.route('/solve', methods=['POST'])
+def solve():
+    request_data = json.loads(request.data)
+    table_state = request_data.get('table_state')
+    try:
+        sudoku_table = SudokuTable(table_state)
+    except:
+        return {'success': False}
+    
+    sudoku_table.solve()
+    return {'success': True, 'solved_table': sudoku_table.string}
+    
+    
+    
+        
+    
+
         
