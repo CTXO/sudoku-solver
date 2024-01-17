@@ -35,6 +35,56 @@ const getTableState = function() {
     return state
 }
 
+const getDownCell = function(row) {
+    if (row == 8) {
+        return 0
+    }
+    return row + 1
+}
+
+
+const getUpCell = function(row) {
+    if (row == 0) {
+        return 8
+    }
+    return row - 1
+}
+
+const getRightCell = function(col) {
+    if (col == 8) {
+        return 0
+    }
+    return col + 1
+}
+
+
+const getLeftCell = function(col) {
+    if (col == 0) {
+        return 8
+    }
+    return col - 1
+}
+
+const getNextCell = function(row, col) {
+    if (row == 8 && col == 8) {
+        return [0, 0]
+    }
+    if (col == 8) {
+        return [row+1, 0]
+    }
+    return [row, col+1]
+}
+
+const getPreviousCell = function(row, col) {
+    if (row == 0 && col == 0) {
+        return [8, 8]
+    }
+    if (col == 0) {
+        return [row-1, 8]
+    }
+    return [row, col-1]
+}
+
 
 const makeCheckValidRequest = async function(tableState, index, number){
     const checkValidUrl = '/check_valid'
@@ -100,11 +150,7 @@ const clickCellHandler = function(e) {
 
 const keyCellHandler = async function(e) {
     const elem = e.target
-    
-    if (!canEditCell(elem)) {
-        return
-    }
-    
+
     if (!elem.classList.contains('cell')) {
         return
     }
@@ -112,6 +158,53 @@ const keyCellHandler = async function(e) {
         elem.innerText = null;
         return 
     }
+
+    const row = parseInt(elem.getAttribute('row'))
+    const col = parseInt(elem.getAttribute('col'))
+    let nextRow = row
+    let nextCol = col
+    switch(e.key.toLowerCase()) {
+        case 'backspace':
+            elem.innerText = null;
+            break
+        case 'arrowleft':
+            nextCol = getLeftCell(col)
+            break
+        case 'arrowright':
+            nextCol = getRightCell(col)
+            break
+        case 'arrowdown':
+            nextRow = getDownCell(row)
+            break
+        case 'arrowup':
+            nextRow = getUpCell(row)
+            break
+        case 'tab':
+            e.preventDefault()
+            let nextCell
+            if (e.shiftKey){
+                nextCell = getPreviousCell(row, col)
+            }
+            else {
+                nextCell =  getNextCell(row, col);
+            }
+            nextRow = nextCell[0]
+            nextCol = nextCell[1]
+            break
+    }
+
+    if (!canEditCell(elem)) {
+        return
+    }
+    if (col !== nextCol || row !== nextRow) {
+
+        const nextCell = document.querySelector(`.cell[row="${nextRow}"][col="${nextCol}"]`)
+        nextCell.focus()
+        nextCell.click()
+        return
+    }
+
+
     if (isNaN(e.key) || !e.key) {
         return
     }
