@@ -8,10 +8,6 @@ from table import SudokuTable
 bp = Blueprint('sudoku', __name__, url_prefix='/')
 
 @bp.route('/')
-def index():
-    return render_template('index.html')
-
-@bp.route('/solver')
 def solver():
     """
     Table structure is a list of blocks.

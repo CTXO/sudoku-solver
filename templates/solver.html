@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
+    <div class="columns is-centered">
+    </div>
     <div id="solver-container">
-
+        <div class="content">
+            <h6>Fill in the empty cells with your Sudoku puzzle. When ready, click 'Solve' to see the solution.</h6>
+        </div>
         <div id="sudoku-table">
             {% for row in table_structure %}
                 <div class="block">
