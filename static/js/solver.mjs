@@ -231,6 +231,9 @@ const keyCellHandler = async function(e) {
 
 
 const solveButtonHandler = async function(e) {
+    this.classList.add('is-loading')
+    this.disabled = true
+    
     const response = await makeSolveTableRequest(getTableState())
     if (!response.success) {
         return
@@ -244,6 +247,9 @@ const solveButtonHandler = async function(e) {
         const cell = document.querySelector(`.cell[row="${row}"][col="${col}"]`)
         cell.innerText = number
     }
+
+    this.classList.remove('is-loading')
+    this.disabled = false
 }
 
 
