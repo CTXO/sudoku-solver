@@ -159,10 +159,6 @@ const keyCellHandler = async function(e) {
     if (!elem.classList.contains('cell')) {
         return
     }
-    if (e.key.toLowerCase() == 'backspace') {
-        elem.innerText = null;
-        return 
-    }
 
     const row = parseInt(elem.getAttribute('row'))
     const col = parseInt(elem.getAttribute('col'))
@@ -170,8 +166,9 @@ const keyCellHandler = async function(e) {
     let nextCol = col
     switch(e.key.toLowerCase()) {
         case 'backspace':
-            elem.innerText = null;
-            break
+            elem.innerText = null
+            elem.classList.remove('error')
+            return
         case 'arrowleft':
             nextCol = getLeftCell(col)
             break
@@ -267,8 +264,6 @@ const solveButtonHandler = async function(e) {
                 await sleep(50)
                 currentCell.classList.remove('success', 'error')
             }
-            
-            
             
             await sleep(100)
         }
