@@ -258,11 +258,19 @@ const solveButtonHandler = async function(e) {
             const classToAdd = step.valid ? 'success' : 'error'
             currentCell.classList.add(classToAdd)
             
+            if (!step.valid && step.number == 9) {
+                await sleep(50)
+                currentCell.innerText = null
+            }
+            
             if (step.valid || step.number == 9) {
-                await sleep(100)
+                await sleep(50)
                 currentCell.classList.remove('success', 'error')
             }
-            await sleep(200)
+            
+            
+            
+            await sleep(100)
         }
         
     }
