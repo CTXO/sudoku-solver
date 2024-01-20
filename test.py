@@ -7,10 +7,11 @@ test3 = ".....7..9....8..6.4..2..5.......9..8....6..7..3.1..2...164..3..543.....
 test4 = "......................................................................3.......2.1"
 
 
-ST = SudokuTable(test4)
+ST = SudokuTable(test)
 
 print(ST)
 print('\n')
 
-ST.solve()
+ST.solve(save_steps=True)
+print(ST.steps)
 print(ST)

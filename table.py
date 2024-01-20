@@ -1,9 +1,10 @@
 class SudokuTable:
-    def __init__(self, sudoku_string):
-
+    steps = []
+    def __init__(self, sudoku_string, save_steps=False):
         self.string = sudoku_string
         self.done = False
         self.debug = False
+        self.save_steps = save_steps
         if len(sudoku_string) != 81:
             print((sudoku_string))
             raise SyntaxError("The sudoku string must have 81 characters")
@@ -14,7 +15,6 @@ class SudokuTable:
                 if not self.is_valid(i, int(c)):
                     raise ValueError("This sudoku board cannot be solved")
 
-            
     def debug_mode(self):
         self.debug = True
 
@@ -31,9 +31,15 @@ class SudokuTable:
             for number_attempt in range(1, 10):
                 if self.debug:
                     print(f"\tTrying to replace {self.string[i]} with {number_attempt}")
+                if self.save_steps:
+                    self.steps.append({'index': i, 'number': number_attempt, 'valid': False,
+                                        'row': self._get_row(i), 'col': self._get_col(i)})
                 if self.is_valid(i, number_attempt):
                     if self.debug:
                         print(f"\tReplacing {self.string[i]} with {number_attempt}")
+                    if self.save_steps:
+                        self.steps[-1]['valid'] = True
+
                     self._replace_number(i, number_attempt)
                     if i < len(self.string) - 1:
                         if self.debug:
@@ -58,6 +64,8 @@ class SudokuTable:
             self._solve_rec(i + 1)
     
     def solve(self):
+        if self.save_steps:
+            self.steps = []
         self._solve_rec(0)
 
     def _get_row(self, i):
