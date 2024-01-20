@@ -49,20 +49,11 @@
 }
 
 .cell.error {
-    background-color: red;
+    background-color: red!important;
 }
 
 .cell.success {
-    background-color: green;
-}
-
-.cell.selected.error {
-    background-color: red;
-    color: white
-}
-
-.cell.selected.success {
-    background-color: green;
+    background-color: green!important;
 }
 
 #solver-buttons {
