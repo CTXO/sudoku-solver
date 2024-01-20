@@ -143,13 +143,13 @@ const clickCellHandler = function(e) {
     }
     
     cells.forEach(cell => cell.classList.remove('selected', 'shadow'))
-    elem.classList.add('selected')
+    elem.classList.add('selected', 'active')
 
     const elemRow = elem.getAttribute('row')
     const elemCol = elem.getAttribute('col')
     const elemBlock = elem.getAttribute('block')
     const shadowElems = document.querySelectorAll(`[row="${elemRow}"], [col="${elemCol}"], [block="${elemBlock}"]`);
-    shadowElems.forEach(elem => elem.classList.add('shadow'))
+    shadowElems.forEach(elem => elem.classList.add('shadow', 'active'))
 }
 
 
@@ -236,6 +236,10 @@ const solveButtonHandler = async function(e) {
     this.classList.add('is-loading')
     this.disabled = true
     
+    cells.forEach(cell => cell.classList.remove('active'))
+    sudokuTable.removeEventListener('click', clickCellHandler)
+    sudokuTable.removeEventListener('keydown', keyCellHandler)
+    
     const tableState = getTableState()
     
     const showStepsInput = document.getElementById('show-steps-input')
@@ -281,6 +285,9 @@ const solveButtonHandler = async function(e) {
 
     this.classList.remove('is-loading')
     this.disabled = false
+
+    sudokuTable.addEventListener('click', clickCellHandler)
+    sudokuTable.addEventListener('keydown', keyCellHandler)
 }
 
 

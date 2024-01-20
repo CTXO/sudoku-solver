@@ -36,15 +36,15 @@
     outline: none   ;
 }
 
-.cell.selected {
+.cell.selected.active {
     background-color: #a3a3f8;
 }
 
-.cell.shadow {
+.cell.shadow.active {
     background-color: #cad8ed;
 }
 
-.cell.selected.shadow {
+.cell.selected.shadow.active {
     background-color: #a3a3f8;
 }
 
