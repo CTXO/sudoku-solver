@@ -2,6 +2,10 @@ const sudokuTable = document.getElementById('sudoku-table')
 const solveButton = document.getElementById('solve-button')
 const cells = document.querySelectorAll('.cell')
 
+const sleep = function(duration) {
+    return new Promise(r => setTimeout(r, duration));
+}
+
 const replaceByIndex = function(string, index, replacement) {
     if (index >= string.length) {
         return string
@@ -101,12 +105,13 @@ const makeCheckValidRequest = async function(tableState, index, number){
     return response
 }
 
-const makeSolveTableRequest = async function(tableState){
+const makeSolveTableRequest = async function(tableState, showSteps){
     const solveTableUrl = '/solve'
     const options = {
         method: 'POST',
         body: JSON.stringify({
-            table_state: tableState
+            table_state: tableState,
+            show_steps: showSteps
         })
     }
     const preResponse = await fetch(solveTableUrl, options)
@@ -234,19 +239,42 @@ const solveButtonHandler = async function(e) {
     this.classList.add('is-loading')
     this.disabled = true
     
-    const response = await makeSolveTableRequest(getTableState())
+    const tableState = getTableState()
+    
+    const showStepsInput = document.getElementById('show-steps-input')
+    const showSteps = showStepsInput.checked
+    const response = await makeSolveTableRequest(tableState, showSteps)
     if (!response.success) {
         return
     }
     
     const solvedTable = Array.from(response.solved_table)
-
-    for (let [index, number] of solvedTable.entries()) {
-        const row = Math.floor(index / 9)
-        const col = index % 9 
-        const cell = document.querySelector(`.cell[row="${row}"][col="${col}"]`)
-        cell.innerText = number
+    
+    if (showSteps) {
+        const { steps } = response
+        for (let step of steps) {
+            const currentCell = document.querySelector(`.cell[row="${step.row}"][col="${step.col}"]`)
+            currentCell.innerText = step.number
+            const classToAdd = step.valid ? 'success' : 'error'
+            currentCell.classList.add(classToAdd)
+            
+            if (step.valid || step.number == 9) {
+                await sleep(100)
+                currentCell.classList.remove('success', 'error')
+            }
+            await sleep(200)
+        }
+        
     }
+    else {
+        for (let [index, number] of solvedTable.entries()) {
+            const row = Math.floor(index / 9)
+            const col = index % 9 
+            const cell = document.querySelector(`.cell[row="${row}"][col="${col}"]`)
+            cell.innerText = number
+        }
+    }
+
 
     this.classList.remove('is-loading')
     this.disabled = false
