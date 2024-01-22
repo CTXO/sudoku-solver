@@ -3,4 +3,3 @@ __pycache__/
 *.log
 node_modules/
 package-lock.json
-app.py
