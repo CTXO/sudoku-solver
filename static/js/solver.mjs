@@ -4,7 +4,6 @@ const cells = document.querySelectorAll('.cell')
 const showStepsInput = document.getElementById('show-steps-input')
 const speedSliderContainer = document.getElementById('speed-slider-container')
 const speedSlider = speedSliderContainer.querySelector('.slider')
-speedSlider.attach()
 
 
 
@@ -305,11 +304,18 @@ const changeCheckboxHandler = function(e) {
     speedSliderContainer.style.display = display
 }
 
+const changeSliderHandler = function(e) {
+    const elem = e.target
+    const value = parseInt(elem.value) + 1
+    const label = document.getElementById('slider-label')
+    label.innerText = `${value}x speed`
+}
 
 
 sudokuTable.addEventListener('click', clickCellHandler)
 sudokuTable.addEventListener('keydown', keyCellHandler)
 showStepsInput.addEventListener('change', changeCheckboxHandler)
+speedSlider.addEventListener('change', changeSliderHandler)
 
 solveButton.addEventListener('click', solveButtonHandler)
 
