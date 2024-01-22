@@ -172,7 +172,7 @@ const keyCellHandler = async function(e) {
     switch(e.key.toLowerCase()) {
         case 'backspace':
             elem.innerText = null
-            elem.classList.remove('error')
+            elem.classList.remove('error', 'pre-selected')
             return
         case 'arrowleft':
             nextCol = getLeftCell(col)
@@ -221,6 +221,7 @@ const keyCellHandler = async function(e) {
     const number = parseInt(e.key)
     
     elem.classList.remove('error')
+
     
     let response;
     try {
@@ -232,6 +233,9 @@ const keyCellHandler = async function(e) {
     }
     if (!response.is_valid) {
         elem.classList.add('error')
+    }
+    else {
+        elem.classList.add('pre-selected')
     }
     
 }
@@ -324,7 +328,7 @@ clearButton.addEventListener('click', function(e) {
     document.activeElement.blur()
     cells.forEach(cell => {
         cell.innerText = null
-        cell.classList.remove('selected', 'shadow', 'error')
+        cell.classList.remove('selected', 'shadow', 'error', 'pre-selected')
     })
 })
 
