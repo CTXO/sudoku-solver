@@ -1,6 +1,7 @@
 const sudokuTable = document.getElementById('sudoku-table')
 const solveButton = document.getElementById('solve-button')
 const cells = document.querySelectorAll('.cell')
+const restoreButton = document.getElementById('restore-button')
 const showStepsInput = document.getElementById('show-steps-input')
 const speedSliderContainer = document.getElementById('speed-slider-container')
 const speedSlider = speedSliderContainer.querySelector('.slider')
@@ -300,6 +301,8 @@ const solveButtonHandler = async function(e) {
 
     sudokuTable.addEventListener('click', clickCellHandler)
     sudokuTable.addEventListener('keydown', keyCellHandler)
+    
+    restoreButton.style.display = 'block'
 }
 
 const changeCheckboxHandler = function(e) {
@@ -315,6 +318,17 @@ const changeSliderHandler = function(e) {
     label.innerText = `${value}x speed`
 }
 
+const restoreButtonHandler = function(e) {
+    const elem = e.target
+    cells.forEach(cell => {
+        if (!cell.classList.contains('pre-selected')) {
+            cell.innerText = null
+        }
+    })
+    
+    elem.style.display = 'none'
+}
+
 
 sudokuTable.addEventListener('click', clickCellHandler)
 sudokuTable.addEventListener('keydown', keyCellHandler)
@@ -322,6 +336,7 @@ showStepsInput.addEventListener('change', changeCheckboxHandler)
 speedSlider.addEventListener('change', changeSliderHandler)
 
 solveButton.addEventListener('click', solveButtonHandler)
+restoreButton.addEventListener('click', restoreButtonHandler)
 
 const clearButton = document.getElementById('clear-button')
 clearButton.addEventListener('click', function(e) {
