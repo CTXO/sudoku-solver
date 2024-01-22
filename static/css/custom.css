@@ -67,6 +67,10 @@
 
 }
 
+#speed-slider-container {
+    display: none;
+}
+
 @media (max-width: 1036px) {
     #sudoku-table .cell {
         font-size: 1rem;

@@ -1,6 +1,11 @@
 const sudokuTable = document.getElementById('sudoku-table')
 const solveButton = document.getElementById('solve-button')
 const cells = document.querySelectorAll('.cell')
+const showStepsInput = document.getElementById('show-steps-input')
+const speedSliderContainer = document.getElementById('speed-slider-container')
+const speedSlider = speedSliderContainer.querySelector('.slider')
+
+
 
 const sleep = function(duration) {
     return new Promise(r => setTimeout(r, duration));
@@ -242,7 +247,6 @@ const solveButtonHandler = async function(e) {
     
     const tableState = getTableState()
     
-    const showStepsInput = document.getElementById('show-steps-input')
     const showSteps = showStepsInput.checked
     const response = await makeSolveTableRequest(tableState, showSteps)
     if (!response.success) {
@@ -290,9 +294,16 @@ const solveButtonHandler = async function(e) {
     sudokuTable.addEventListener('keydown', keyCellHandler)
 }
 
+const changeCheckboxHandler = function(e) {
+    const elem = e.target
+    const display = elem.checked ? 'block' : 'none'
+    speedSliderContainer.style.display = display
+}
+
 
 sudokuTable.addEventListener('click', clickCellHandler)
 sudokuTable.addEventListener('keydown', keyCellHandler)
+showStepsInput.addEventListener('change', changeCheckboxHandler)
 
 solveButton.addEventListener('click', solveButtonHandler)
 
