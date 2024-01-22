@@ -16,7 +16,7 @@ Web app written in flask that solves any solvable sudoku puzzle using backtracki
   git clone https://github.com/CTXO/Sudoku.git # HTTPS
 
   # Go to the repository
-  cd Sudoku
+  cd sudoku-solver
 
   # Create virtual environment
   python3 -m venv venv
