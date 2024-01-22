@@ -4,6 +4,7 @@ const cells = document.querySelectorAll('.cell')
 const showStepsInput = document.getElementById('show-steps-input')
 const speedSliderContainer = document.getElementById('speed-slider-container')
 const speedSlider = speedSliderContainer.querySelector('.slider')
+speedSlider.attach()
 
 
 
@@ -256,8 +257,12 @@ const solveButtonHandler = async function(e) {
     const solvedTable = Array.from(response.solved_table)
     
     if (showSteps) {
+        const baseSpeed = 500
         const { steps } = response
         for (let step of steps) {
+
+            const multiplier = parseInt(speedSlider.value)+ 1
+            const realSpeed = baseSpeed / multiplier
             const currentCell = document.querySelector(`.cell[row="${step.row}"][col="${step.col}"]`)
             currentCell.innerText = step.number
             const classToAdd = step.valid ? 'success' : 'error'
@@ -269,11 +274,11 @@ const solveButtonHandler = async function(e) {
             }
             
             if (step.valid || step.number == 9) {
-                await sleep(50)
+                await sleep(realSpeed / 2)
                 currentCell.classList.remove('success', 'error')
             }
             
-            await sleep(100)
+            await sleep(realSpeed)
         }
         
     }
@@ -299,6 +304,7 @@ const changeCheckboxHandler = function(e) {
     const display = elem.checked ? 'block' : 'none'
     speedSliderContainer.style.display = display
 }
+
 
 
 sudokuTable.addEventListener('click', clickCellHandler)
