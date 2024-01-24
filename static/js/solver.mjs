@@ -5,7 +5,8 @@ const restoreButton = document.getElementById('restore-button')
 const showStepsInput = document.getElementById('show-steps-input')
 const speedSliderContainer = document.getElementById('speed-slider-container')
 const speedSlider = speedSliderContainer.querySelector('.slider')
-
+const inSolveButtons = document.querySelectorAll('.button.in-solve')
+const notInSolveButtons = document.querySelectorAll('.button.not-in-solve')
 
 
 const sleep = function(duration) {
@@ -241,7 +242,6 @@ const keyCellHandler = async function(e) {
     
 }
 
-
 const solveButtonHandler = async function(e) {
     this.classList.add('is-loading')
     this.disabled = true
@@ -263,6 +263,10 @@ const solveButtonHandler = async function(e) {
     if (showSteps) {
         const baseSpeed = 500
         const { steps } = response
+
+        inSolveButtons.forEach(button => {button.classList.remove('hidden')})
+        notInSolveButtons.forEach(button => {button.classList.add('hidden')})
+        
         for (let step of steps) {
 
             const multiplier = parseInt(speedSlider.value)+ 1
@@ -284,6 +288,9 @@ const solveButtonHandler = async function(e) {
             
             await sleep(realSpeed)
         }
+
+        inSolveButtons.forEach(button => {button.classList.add('hidden')})
+        notInSolveButtons.forEach(button => {button.classList.remove('hidden')})
         
     }
     else {
@@ -296,8 +303,10 @@ const solveButtonHandler = async function(e) {
     }
 
 
+
     this.classList.remove('is-loading')
     this.disabled = false
+
 
     sudokuTable.addEventListener('click', clickCellHandler)
     sudokuTable.addEventListener('keydown', keyCellHandler)
