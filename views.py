@@ -27,7 +27,6 @@ def solver():
         ]
         for block in range(9)
     ]
-    print(table_structure)
     return render_template('solver.html', table_structure=table_structure)
 
 
