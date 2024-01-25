@@ -8,7 +8,7 @@ const speedSlider = speedSliderContainer.querySelector('.slider')
 const inSolveButtons = document.querySelectorAll('.button.in-solve')
 const notInSolveButtons = document.querySelectorAll('.button.not-in-solve')
 
-
+let steps = [];
 const sleep = function(duration) {
     return new Promise(r => setTimeout(r, duration));
 }
@@ -262,13 +262,15 @@ const solveButtonHandler = async function(e) {
     
     if (showSteps) {
         const baseSpeed = 500
-        const { steps } = response
+        steps = response.steps
 
         inSolveButtons.forEach(button => {button.classList.remove('hidden')})
         notInSolveButtons.forEach(button => {button.classList.add('hidden')})
         
-        for (let step of steps) {
-
+        while (steps.length > 0 && !shouldPause) {
+            shouldPause = false
+            shouldFinish = false
+            const step = steps.splice(0, 1)[0]
             const multiplier = parseInt(speedSlider.value)+ 1
             const realSpeed = baseSpeed / multiplier
             const currentCell = document.querySelector(`.cell[row="${step.row}"][col="${step.col}"]`)
