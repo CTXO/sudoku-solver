@@ -5,9 +5,12 @@ const restoreButton = document.getElementById('restore-button')
 const showStepsInput = document.getElementById('show-steps-input')
 const speedSliderContainer = document.getElementById('speed-slider-container')
 const speedSlider = speedSliderContainer.querySelector('.slider')
+const inSolveButtons = document.querySelectorAll('.button.in-solve')
+const notInSolveButtons = document.querySelectorAll('.button.not-in-solve')
+const pauseButton = document.getElementById('pause-button')
+const finishSolveButton = document.getElementById('finish-solve-button')
 
-
-
+let steps = [];
 const sleep = function(duration) {
     return new Promise(r => setTimeout(r, duration));
 }
@@ -241,10 +244,12 @@ const keyCellHandler = async function(e) {
     
 }
 
-
+let solvedTable
 const solveButtonHandler = async function(e) {
     this.classList.add('is-loading')
     this.disabled = true
+    let shouldPause = false
+    let shouldFinish = false
     
     cells.forEach(cell => cell.classList.remove('active'))
     sudokuTable.removeEventListener('click', clickCellHandler)
@@ -253,18 +258,33 @@ const solveButtonHandler = async function(e) {
     const tableState = getTableState()
     
     const showSteps = showStepsInput.checked
-    const response = await makeSolveTableRequest(tableState, showSteps)
-    if (!response.success) {
-        return
+    let response;
+    if (steps.length == 0) {
+        response = await makeSolveTableRequest(tableState, showSteps)
+        solvedTable = Array.from(response.solved_table)
+
+        if (!response.success) {
+            return
+        }
     }
     
-    const solvedTable = Array.from(response.solved_table)
     
-    if (showSteps) {
+    if (showSteps && !shouldFinish) {
         const baseSpeed = 500
-        const { steps } = response
-        for (let step of steps) {
+        if (steps.length == 0){
+            steps = response.steps
+        }
 
+        inSolveButtons.forEach(button => {button.classList.remove('hidden')})
+        notInSolveButtons.forEach(button => {button.classList.add('hidden')})
+        
+        while (steps.length > 0 && !shouldPause) {
+            shouldPause = pauseButton.classList.contains('is-paused')
+            shouldFinish = finishSolveButton.classList.contains('should-finish')
+            if (shouldFinish){
+                break
+            }
+            const step = steps.splice(0, 1)[0]
             const multiplier = parseInt(speedSlider.value)+ 1
             const realSpeed = baseSpeed / multiplier
             const currentCell = document.querySelector(`.cell[row="${step.row}"][col="${step.col}"]`)
@@ -285,8 +305,13 @@ const solveButtonHandler = async function(e) {
             await sleep(realSpeed)
         }
         
+        if (!shouldPause || shouldFinish) {
+            inSolveButtons.forEach(button => {button.classList.add('hidden')})
+            notInSolveButtons.forEach(button => {button.classList.remove('hidden')})
+        }
+        
     }
-    else {
+    if (!showSteps || shouldFinish) {
         for (let [index, number] of solvedTable.entries()) {
             const row = Math.floor(index / 9)
             const col = index % 9 
@@ -295,14 +320,21 @@ const solveButtonHandler = async function(e) {
         }
     }
 
-
     this.classList.remove('is-loading')
     this.disabled = false
+
 
     sudokuTable.addEventListener('click', clickCellHandler)
     sudokuTable.addEventListener('keydown', keyCellHandler)
     
-    restoreButton.style.display = 'block'
+    if (!shouldPause || shouldFinish) {
+        steps = []
+        solvedTable = null
+        restoreButton.classList.remove('hidden')
+        pauseButton.classList.remove('is-paused')
+        pauseButton.innerText = 'Pause'
+        finishSolveButton.classList.remove('should-finish')
+    }
 }
 
 const changeCheckboxHandler = function(e) {
@@ -326,7 +358,7 @@ const restoreButtonHandler = function(e) {
         }
     })
     
-    elem.style.display = 'none'
+    elem.classList.add('hidden')
 }
 
 
@@ -345,5 +377,29 @@ clearButton.addEventListener('click', function(e) {
         cell.innerText = null
         cell.classList.remove('selected', 'shadow', 'error', 'pre-selected')
     })
+    restoreButton.classList.add('hidden')
+})
+
+pauseButton.addEventListener('click', function(e) {
+    const elem = e.target
+    if (elem.classList.contains('is-paused')) {
+        elem.classList.remove('is-paused')
+        elem.innerText = 'Pause'
+        solveButton.click()
+    }
+    else {
+        elem.classList.add('is-paused')
+        elem.innerText = 'Continue'
+    }
+
+})
+
+finishSolveButton.addEventListener('click', function(e) {
+    const elem = e.target
+    elem.classList.add('should-finish')
+    cells.forEach(cell => cell.classList.remove('success', 'error'))
+    if (pauseButton.classList.contains('is-paused')) {
+        solveButton.click()
+    }
 })
 

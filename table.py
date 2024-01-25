@@ -6,7 +6,6 @@ class SudokuTable:
         self.debug = False
         self.save_steps = save_steps
         if len(sudoku_string) != 81:
-            print((sudoku_string))
             raise SyntaxError("The sudoku string must have 81 characters")
         for i, c in enumerate(self.string):
             if c != ".":
