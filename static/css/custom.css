@@ -70,9 +70,6 @@
     align-items: center;
 }
 
-#restore-button {
-    display: none;
-}
 
 #solver-buttons > * {
     margin-bottom: 1rem;
