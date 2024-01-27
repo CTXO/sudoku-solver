@@ -404,7 +404,7 @@ finishSolveButton.addEventListener('click', function(e) {
 })
 
 
-const buttonsContainer = document.getElementById('solver-buttons')
+const buttonsContainer = document.getElementById('example-buttons')
 
 const table1 = '...26.7.168..7..9.19...45..82.1...4...46.29...5...3.28..93...74.4..5..367.3.18...'
 const table2 = '.2.6.8...58...97......4....37....5..6.......4..8....13....2......98...36...3.6.9.'
@@ -444,3 +444,17 @@ const exampleButtonHandler = function(e) {
 
 
 buttonsContainer.addEventListener('click', exampleButtonHandler)
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const sudokuTable = document.getElementById("sudoku-table");
+    const solverContainer = document.getElementById("solver-container");
+
+    // Set the height of buttonsContainer equal to the height of sudokuTable
+    solverContainer.style.height = sudokuTable.clientHeight + "px";
+    
+    // Optional: Add an event listener to adjust the height on window resize
+    window.addEventListener("resize", function () {
+        solverContainer.style.height = sudokuTable.clientHeight + "px";
+    });
+}); 

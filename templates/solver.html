@@ -1,11 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
+    <script>
+
+        c 
+        const sudokuTable = document.getElementById("sudoku-table");
+
+    </script>
     <div class="columns is-centered">
     </div>
+
+    <div class="content" id="title">
+        <h6>Fill in the empty cells with your Sudoku puzzle. When ready, click 'Solve' to see the solution.</h6>
+    </div>
+
     <div id="solver-container">
-        <div class="content">
-            <h6>Fill in the empty cells with your Sudoku puzzle. When ready, click 'Solve' to see the solution.</h6>
-        </div>
         <div id="sudoku-table">
             {% for row in table_structure %}
                 <div class="block">
@@ -15,24 +23,32 @@
                 </div>
             {% endfor %}
         </div>
-        
-        <div id="solver-buttons">
-            <button type="button" class="button is-warning not-in-solve hidden" id="restore-button">Restore original table</button>
-            <button type="button" class="button is-info not-in-solve" id="clear-button">Clear table</button>
-            <button type="button" class="button is-info not-in-solve example-button is-light" data-example="1">Load example 1</button>
-            <button type="button" class="button is-info not-in-solve example-button is-light" data-example="2">Load example 2</button>
-            <button type="button" class="button is-info not-in-solve example-button is-light" data-example="3">Load example 3</button>
-            <button type="button" class="button is-primary  not-in-solve" id="solve-button">Solve</button>
-            <button type="button" class="button is-info hidden  in-solve" id="pause-button">Pause</button>
-            <button type="button" class="button is-primary hidden in-solve" id="finish-solve-button">Finish solve</button>
 
-            <div><input class="checkbox" id="show-steps-input" type="checkbox" name="show-step"> <label>Show step-by-step<label></div>
-            <div id='speed-slider-container'>
-                <input id='speed-slider' class="slider is-fullwidt has-output-tooltip" step="1" min="0" max="9" value="0" type="range"><br>
-                <p id="slider-label" style="text-align: center">1x speed</p>
+        <div id="buttons-container">
+            <div id="solver-buttons">
+                <button type="button" class="button is-warning not-in-solve hidden" id="restore-button">Restore original table</button>
+                <button type="button" class="button is-info not-in-solve" id="clear-button">Clear table</button>
+                <button type="button" class="button is-primary  not-in-solve" id="solve-button">Solve</button>
+                <button type="button" class="button is-info hidden  in-solve" id="pause-button">Pause</button>
+                <button type="button" class="button is-primary hidden in-solve" id="finish-solve-button">Finish solve</button>
+
+                <div><input class="checkbox" id="show-steps-input" type="checkbox" name="show-step"> <label>Show step-by-step<label></div>
+                <div id='speed-slider-container'>
+                    <input id='speed-slider' class="slider is-fullwidt has-output-tooltip" step="1" min="0" max="9" value="0" type="range"><br>
+                    <p id="slider-label" style="text-align: center">1x speed</p>
+                </div>
+            </div>    
+
+            <div id="example-buttons">
+                <button type="button" class="button is-info not-in-solve example-button is-light" data-example="1">Load example 1</button>
+                <button type="button" class="button is-info not-in-solve example-button is-light" data-example="2">Load example 2</button>
+                <button type="button" class="button is-info not-in-solve example-button is-light" data-example="3">Load example 3</button>
             </div>
-        </div>    
+            
+        </div>
+
     </div>
+
     
 <script src="{{ url_for('static', filename='js/solver.mjs') }}" type="module"></script>
 

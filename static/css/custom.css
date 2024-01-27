@@ -1,13 +1,18 @@
+
 .hidden {
     display: none;
 }
 
+#title {
+    text-align: center;
+}
+
 #solver-container {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
 }
+
 
 #sudoku-table {
     display: grid;
@@ -17,7 +22,6 @@
     row-gap: 0;
     width: 40%;
     border: 2px solid black;
-    margin-bottom: 2rem;
 }
 
 #sudoku-table .block {
@@ -26,7 +30,6 @@
     grid-template-columns: repeat(3, 1fr);
     margin: 0;
     aspect-ratio: 1/1; 
-    
 }
 
 #sudoku-table .cell {
@@ -80,6 +83,21 @@
     display: none;
 }
 
+#buttons-container {
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+#example-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    height: 30%;
+}
+
 @media (max-width: 1036px) {
     #sudoku-table .cell {
         font-size: 1rem;
@@ -88,3 +106,4 @@
         width: 100%;
     }
 }
+
