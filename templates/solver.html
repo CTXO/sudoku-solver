@@ -1,11 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-    <script>
-
-        c 
-        const sudokuTable = document.getElementById("sudoku-table");
-
-    </script>
     <div class="columns is-centered">
     </div>
 
@@ -49,8 +43,10 @@
 
     </div>
 
-    
+
+<script src="{{ url_for('static', filename='js/container_style.mjs') }}" type="module" ></script>
 <script src="{{ url_for('static', filename='js/solver.mjs') }}" type="module"></script>
+    <script src="{{ url_for('static', filename='js/example_buttons.mjs') }}" type="module"></script>
 
 {% endblock %}
 

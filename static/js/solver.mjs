@@ -1,5 +1,3 @@
-const sudokuTable = document.getElementById('sudoku-table')
-const solveButton = document.getElementById('solve-button')
 const cells = document.querySelectorAll('.cell')
 const restoreButton = document.getElementById('restore-button')
 const showStepsInput = document.getElementById('show-steps-input')
@@ -10,7 +8,6 @@ const notInSolveButtons = document.querySelectorAll('.button.not-in-solve')
 const pauseButton = document.getElementById('pause-button')
 const finishSolveButton = document.getElementById('finish-solve-button')
 
-let steps = [];
 const sleep = function(duration) {
     return new Promise(r => setTimeout(r, duration));
 }
@@ -22,8 +19,7 @@ const replaceByIndex = function(string, index, replacement) {
 
     const first_part = string.slice(0, index) 
     const second_part = string.slice(index+1)
-    const ret =  first_part + replacement + second_part
-    return ret
+    return first_part + replacement + second_part
 }
 
 const cellPositionToIndex = function(row, col) {
@@ -41,15 +37,14 @@ const getTableState = function() {
         const index = cellPositionToIndex(cellRow, cellCol)
         const cellContent = cell.innerText
         if (cellContent && !isNaN(cellContent)) {
-            let stateTemp = replaceByIndex(state, index, cellContent)
-            state = stateTemp
+            state = replaceByIndex(state, index, cellContent)
         }
     })
     return state
 }
 
 const getDownCell = function(row) {
-    if (row == 8) {
+    if (row === 8) {
         return 0
     }
     return row + 1
@@ -57,14 +52,14 @@ const getDownCell = function(row) {
 
 
 const getUpCell = function(row) {
-    if (row == 0) {
+    if (row === 0) {
         return 8
     }
     return row - 1
 }
 
 const getRightCell = function(col) {
-    if (col == 8) {
+    if (col === 8) {
         return 0
     }
     return col + 1
@@ -72,27 +67,27 @@ const getRightCell = function(col) {
 
 
 const getLeftCell = function(col) {
-    if (col == 0) {
+    if (col === 0) {
         return 8
     }
     return col - 1
 }
 
 const getNextCell = function(row, col) {
-    if (row == 8 && col == 8) {
+    if (row === 8 && col === 8) {
         return [0, 0]
     }
-    if (col == 8) {
+    if (col === 8) {
         return [row+1, 0]
     }
     return [row, col+1]
 }
 
 const getPreviousCell = function(row, col) {
-    if (row == 0 && col == 0) {
+    if (row === 0 && col === 0) {
         return [8, 8]
     }
-    if (col == 0) {
+    if (col === 0) {
         return [row-1, 8]
     }
     return [row, col-1]
@@ -110,8 +105,7 @@ const makeCheckValidRequest = async function(tableState, index, number){
         })
     }
     const preResponse = await fetch(checkValidUrl, options)
-    const response = await preResponse.json()
-    return response
+    return await preResponse.json()
 }
 
 const makeSolveTableRequest = async function(tableState, showSteps){
@@ -124,8 +118,7 @@ const makeSolveTableRequest = async function(tableState, showSteps){
         })
     }
     const preResponse = await fetch(solveTableUrl, options)
-    const response = await preResponse.json()
-    return response
+    return await preResponse.json()
 
 }
 
@@ -244,7 +237,9 @@ const keyCellHandler = async function(e) {
     
 }
 
+let steps = [];
 let solvedTable
+const sudokuTable = document.getElementById('sudoku-table')
 const solveButtonHandler = async function(e) {
     this.classList.add('is-loading')
     this.disabled = true
@@ -259,7 +254,7 @@ const solveButtonHandler = async function(e) {
     
     const showSteps = showStepsInput.checked
     let response;
-    if (steps.length == 0) {
+    if (steps.length === 0) {
         response = await makeSolveTableRequest(tableState, showSteps)
         solvedTable = Array.from(response.solved_table)
 
@@ -271,7 +266,7 @@ const solveButtonHandler = async function(e) {
     
     if (showSteps && !shouldFinish) {
         const baseSpeed = 500
-        if (steps.length == 0){
+        if (steps.length === 0){
             steps = response.steps
         }
 
@@ -292,12 +287,12 @@ const solveButtonHandler = async function(e) {
             const classToAdd = step.valid ? 'success' : 'error'
             currentCell.classList.add(classToAdd)
             
-            if (!step.valid && step.number == 9) {
+            if (!step.valid && step.number === 9) {
                 await sleep(50)
                 currentCell.innerText = null
             }
             
-            if (step.valid || step.number == 9) {
+            if (step.valid || step.number === 9) {
                 await sleep(realSpeed / 2)
                 currentCell.classList.remove('success', 'error')
             }
@@ -367,10 +362,11 @@ sudokuTable.addEventListener('keydown', keyCellHandler)
 showStepsInput.addEventListener('change', changeCheckboxHandler)
 speedSlider.addEventListener('change', changeSliderHandler)
 
+const solveButton = document.getElementById('solve-button')
 solveButton.addEventListener('click', solveButtonHandler)
 restoreButton.addEventListener('click', restoreButtonHandler)
 
-const clearButton = document.getElementById('clear-button')
+export const clearButton = document.getElementById('clear-button')
 clearButton.addEventListener('click', function(e) {
     document.activeElement.blur()
     cells.forEach(cell => {
@@ -404,57 +400,3 @@ finishSolveButton.addEventListener('click', function(e) {
 })
 
 
-const buttonsContainer = document.getElementById('example-buttons')
-
-const table1 = '...26.7.168..7..9.19...45..82.1...4...46.29...5...3.28..93...74.4..5..367.3.18...'
-const table2 = '.2.6.8...58...97......4....37....5..6.......4..8....13....2......98...36...3.6.9.'
-const table3 = '.2..........6....3.74.8.........3..2.8..4..1.6..5.........1.78.5....9..........4.'
-const examples = {
-    1: table1,
-    2: table2,
-    3: table3
-}
-
-const fillExample = function(example) {
-    Array.from(example).forEach((value, index) => {
-        const valueParsed = parseInt(value)
-        if (isNaN(valueParsed)) {
-            return
-        }
-        
-        const row = Math.floor(index / 9)
-        const col = index % 9
-        
-        const cell = document.querySelector(`.cell[row="${row}"][col="${col}"]`)
-        cell.innerText = valueParsed
-        cell.classList.add('pre-selected')
-    })
-}
-
-const exampleButtonHandler = function(e) {
-    const elem = e.target
-    if (!elem.classList.contains('example-button')) {
-        return
-    }
-    clearButton.click()
-    const exampleNumber = parseInt(elem.getAttribute('data-example'))
-    const example = examples[exampleNumber]
-    fillExample(example)
-}
-
-
-buttonsContainer.addEventListener('click', exampleButtonHandler)
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    const sudokuTable = document.getElementById("sudoku-table");
-    const solverContainer = document.getElementById("solver-container");
-
-    // Set the height of buttonsContainer equal to the height of sudokuTable
-    solverContainer.style.height = sudokuTable.clientHeight + "px";
-    
-    // Optional: Add an event listener to adjust the height on window resize
-    window.addEventListener("resize", function () {
-        solverContainer.style.height = sudokuTable.clientHeight + "px";
-    });
-}); 
